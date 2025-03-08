@@ -1,0 +1,72 @@
+#ifndef __DEBUG_H__
+#define __DEBUG_H__
+
+#include <stdio.h>
+#include <string>
+#include <unistd.h>
+#include <sys/mman.h>
+#include "../src/fpga_control.hpp"
+using namespace std;
+
+uint32_t NUM_RPCS = 16*1024*1024;//16*1024*1024;//1024*1024;
+uint32_t CREDIT = 1600;
+unsigned int EN_CYCLES = 1;
+unsigned int TOTAL_CYCLES = 115;
+
+/*
+	110->(10.39 GB/s, 35.6us)
+	112->(10.32 GB/s, 21.0us)
+	113->(10.2 GB/s, 21.1us)
+	115->(10.1 GB/s, 20.6us)
+	128->(9.0 GB/s, 20.5us)	
+*/
+
+inline void print_reporters_dummy(volatile uint32_t *bar){
+@RPSDummyTop_print@
+}
+
+inline void print_reporters_bs(volatile uint32_t *bar){
+@RPSTop_print@
+}
+
+inline void print_reporters_client(volatile uint32_t *bar){
+@RPSClientTop_print@
+}
+
+inline void statistics_dummy(volatile uint32_t *bar){
+@RPSDummyTop_fix@
+
+	print_latency(bar, REG_QDMA_LATENCY_HIGH, REG_QDMA_LATENCY_LOW,"qdma_latency",NUM_RPCS*2);
+	print_latency(bar, REG_CS_REQ_QDMA_LATENCY_HIGH, REG_CS_REQ_QDMA_LATENCY_LOW,"cs req qdma",NUM_RPCS);
+	print_latency(bar, REG_BS_REQ_PROCESS_LATENCY_HIGH, REG_BS_REQ_PROCESS_LATENCY_LOW,"bs process",NUM_RPCS);
+	print_latency(bar, REG_CS_REQ_PROCESS_LATENCY_HIGH, REG_CS_REQ_PROCESS_LATENCY_LOW,"cs process",NUM_RPCS);
+}
+
+inline void statistics_bs(volatile uint32_t *bar){
+@RPSTop_fix@
+
+	print_latency(bar, REG_QDMA_LATENCY_HIGH, REG_QDMA_LATENCY_LOW,"qdma_latency",NUM_RPCS);
+	print_latency(bar, REG_CLIENT_REQ_QDMA_LATENCY_HIGH, REG_CLIENT_REQ_QDMA_LATENCY_LOW,"client req qdma",NUM_RPCS);
+	print_latency(bar, REG_CS_REQ_QDMA_LATENCY_HIGH, REG_CS_REQ_QDMA_LATENCY_LOW,"cs req qdma",NUM_RPCS);
+	print_latency(bar, REG_BS_REQ_PROCESS_LATENCY_HIGH, REG_BS_REQ_PROCESS_LATENCY_LOW,"bs process",NUM_RPCS);
+	print_latency(bar, REG_CS_REQ_PROCESS_LATENCY_HIGH, REG_CS_REQ_PROCESS_LATENCY_LOW,"cs process",NUM_RPCS);
+}
+
+inline void statistics_client(volatile uint32_t *bar){
+@RPSClientTop_fix@
+
+	print_latency(bar, REG_E2E_LATENCY_HIGH, REG_E2E_LATENCY_LOW,"end to end",NUM_RPCS);
+	print_latency(bar, REG_PHASE1_LATENCY_HIGH, REG_PHASE1_LATENCY_LOW,"phase1",NUM_RPCS);
+	print_latency(bar, REG_PHASE2_LATENCY_HIGH, REG_PHASE2_LATENCY_LOW,"phase2",NUM_RPCS);
+	print_latency(bar, CS_E2E_LATENCY_HIGH, CS_E2E_LATENCY_LOW,"cs e2e",NUM_RPCS);
+
+	//throughput
+	printf("\nThroughtput:\n");
+	uint64_t cycles = bar[REG_TOTAL_CYCLES_LOW] + ((1l*bar[REG_TOTAL_CYCLES_HIGH])<<32);
+	double time_us	= 1.0*cycles*(3.3/1000);
+	double bw		= 1.0*NUM_RPCS*4*1024/(1024*1024*1024)/(time_us/1000/1000);
+	printf("Cycles: %ld\n",cycles);
+	printf("Time: %f us \n",time_us);
+	printf("BW: %f GB/s \n",bw);
+}
+#endif
