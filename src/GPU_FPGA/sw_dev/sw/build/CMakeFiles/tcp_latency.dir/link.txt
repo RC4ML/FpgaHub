@@ -1,0 +1,1 @@
+/usr/bin/c++    -pthread -mavx   CMakeFiles/tcp_latency.dir/tcp_latency.cpp.o CMakeFiles/tcp_latency.dir/fpga/XDMA.cpp.o CMakeFiles/tcp_latency.dir/fpga/XDMAController.cpp.o CMakeFiles/tcp_latency.dir/fpga/MemoryManager.cpp.o  -o tcp_latency -rdynamic 

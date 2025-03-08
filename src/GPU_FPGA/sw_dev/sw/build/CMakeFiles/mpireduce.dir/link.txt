@@ -1,0 +1,1 @@
+/usr/bin/c++    -pthread -mavx   CMakeFiles/mpireduce.dir/mpireduce.cpp.o CMakeFiles/mpireduce.dir/fpga/XDMA.cpp.o CMakeFiles/mpireduce.dir/fpga/XDMAController.cpp.o CMakeFiles/mpireduce.dir/fpga/MemoryManager.cpp.o  -o mpireduce -rdynamic 

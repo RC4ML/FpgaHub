@@ -1,0 +1,4 @@
+/home/amax/hhj/example_module/FpgaNIC/sw_dev/sw/build/CMakeFiles/hyperloglog.dir
+/home/amax/hhj/example_module/FpgaNIC/sw_dev/sw/build/CMakeFiles/allreduce.dir
+/home/amax/hhj/example_module/FpgaNIC/sw_dev/sw/build/CMakeFiles/tcp_latency.dir
+/home/amax/hhj/example_module/FpgaNIC/sw_dev/sw/build/CMakeFiles/tcp_benchmark.dir

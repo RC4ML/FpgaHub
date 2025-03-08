@@ -1,0 +1,1 @@
+/usr/bin/c++    -pthread -mavx   CMakeFiles/tcp_benchmark.dir/tcp_benchmark.cpp.o CMakeFiles/tcp_benchmark.dir/fpga/XDMA.cpp.o CMakeFiles/tcp_benchmark.dir/fpga/XDMAController.cpp.o CMakeFiles/tcp_benchmark.dir/fpga/MemoryManager.cpp.o  -o tcp_benchmark -rdynamic 

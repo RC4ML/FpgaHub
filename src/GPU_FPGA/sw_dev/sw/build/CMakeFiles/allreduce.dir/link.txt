@@ -1,0 +1,1 @@
+/usr/bin/c++    -pthread -mavx   CMakeFiles/allreduce.dir/mpireduce.cpp.o CMakeFiles/allreduce.dir/fpga/XDMA.cpp.o CMakeFiles/allreduce.dir/fpga/XDMAController.cpp.o CMakeFiles/allreduce.dir/fpga/MemoryManager.cpp.o  -o allreduce -rdynamic 
